@@ -1,9 +1,8 @@
 package com.incidencias.service;
 
-import com.incidencias.dto.AfectadoDTO;
-import com.incidencias.model.Afectado;
-
 import java.util.List;
+
+import com.incidencias.dto.AfectadoDTO;
 
 public interface IAfectadoService {
     AfectadoDTO crear(AfectadoDTO dto);

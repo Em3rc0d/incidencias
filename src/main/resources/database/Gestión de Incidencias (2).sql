@@ -125,3 +125,48 @@ ALTER TABLE "evidencia" ADD FOREIGN KEY ("incidencia_id") REFERENCES "incidencia
 ALTER TABLE "historial_uso_vehiculo" ADD FOREIGN KEY ("vehiculo_id") REFERENCES "vehiculo" ("vehiculo_id");
 
 ALTER TABLE "historial_uso_vehiculo" ADD FOREIGN KEY ("usuario_id") REFERENCES "usuario" ("usuario_id");
+
+INSERT INTO aseguradora (nombre, correo_contacto, telefono) VALUES
+('Rimac Seguros', 'contacto@rimac.com', '014123456'),
+('La Positiva', 'info@lapositiva.com.pe', '014987654');
+
+INSERT INTO empresa (aseguradora_id, nombre, ruc) VALUES
+(1, 'Transporte Lima S.A.', '20123456789'),
+(2, 'Carga Express Perú', '20456789123');
+
+INSERT INTO vehiculo (empresa_id, placa, marca, modelo, anio, tipo) VALUES
+(1, 'ABC-123', 'Toyota', 'Hilux', 2018, 'Camioneta'),
+(2, 'XYZ-789', 'Hyundai', 'H100', 2020, 'Furgón');
+
+INSERT INTO usuario (empresa_id, nombre, correo, contrasena, rol) VALUES
+(1, 'Juan Pérez', 'juan@translimasa.com', '123456', 'chofer'),
+(2, 'Ana Torres', 'ana@cargaexpress.com', '123456', 'supervisor');
+
+INSERT INTO tipo_incidencia (nombre, descripcion) VALUES
+('Colisión', 'Impacto entre vehículos o con objeto fijo'),
+('Falla mecánica', 'Problemas con el sistema mecánico del vehículo');
+
+INSERT INTO incidencia (vehiculo_id, usuario_id, tipo_incidencia_id, descripcion, prioridad, latitud, longitud) VALUES
+(1, 1, 1, 'Colisión leve en intersección Av. Javier Prado con Arenales', 'alta', -12.092334, -77.036590),
+(2, 2, 2, 'Falla en el sistema de frenos en ruta a Callao', 'media', -12.058290, -77.118950);
+
+INSERT INTO historial_incidencia (incidencia_id, usuario_id, estado, observacion) VALUES
+(1, 1, 'en revisión', 'Esperando informe del taller'),
+(2, 2, 'resuelto', 'Frenos reparados, vehículo operativo');
+
+INSERT INTO afectado (incidencia_id, nombre, documento_identidad, tipo_tercero, contacto, descripcion_danio) VALUES
+(1, 'Luis Gómez', '12345678', 'peatón', 'luisgomez@gmail.com', 'Golpe leve en pierna'),
+(1, 'Soledad Ruiz', '87654321', 'conductor', 'sruiz@yahoo.com', 'Daños en parte frontal de auto');
+
+INSERT INTO reporte_aseguradora (incidencia_id, aseguradora_id, asunto, cuerpo, observaciones) VALUES
+(1, 1, 'Reporte de colisión leve', 'Adjuntamos detalles del accidente ocurrido el 08/06.', 'Se notificó a la policía de tránsito'),
+(2, 2, 'Reporte de falla mecánica', 'Problema reportado en zona portuaria, sin daños a terceros', 'Sin intervención externa');
+
+INSERT INTO evidencia (incidencia_id, url_archivo, tipo_archivo) VALUES
+(1, 'https://miapp.com/evidencias/foto1.jpg', 'imagen'),
+(2, 'https://miapp.com/evidencias/video1.mp4', 'video');
+
+INSERT INTO historial_uso_vehiculo (vehiculo_id, usuario_id, numero_vueltas, fecha_inicio, fecha_fin) VALUES
+(1, 1, 5, '2025-06-01 08:00:00', '2025-06-01 16:00:00'),
+(2, 2, 3, '2025-06-02 07:00:00', '2025-06-02 14:00:00');
+

@@ -1,11 +1,12 @@
 package com.incidencias.dto;
 
-import com.incidencias.model.enums.ROLE;
+import lombok.Data;
 
+@Data
 public class UsuarioDTO {
     private Long empresaId;
     private String nombre;
     private String correo;
-    private ROLE rol;
-    // Getters y setters
+    private String contrasena;
+    private String rol;
 }

@@ -1,10 +1,12 @@
 // AseguradoraService.java
 package com.incidencias.service;
 
-import com.incidencias.dto.AseguradoraDTO;
-
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.incidencias.dto.AseguradoraDTO;
+@Service
 public interface AseguradoraService {
     List<AseguradoraDTO> listar();
     AseguradoraDTO obtenerPorId(Long id);

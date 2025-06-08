@@ -20,30 +20,30 @@ import com.incidencias.service.IAfectadoService;
 public class AfectadoController {
 
     @Autowired
-    private IAfectadoService afectadoService;
+    private IAfectadoService service;
 
     @PostMapping
     public AfectadoDTO crear(@RequestBody AfectadoDTO dto) {
-        return afectadoService.crear(dto);
+        return service.crear(dto);
     }
 
     @GetMapping("/{id}")
-    public AfectadoDTO obtener(@PathVariable Long id) {
-        return afectadoService.obtenerPorId(id);
+    public AfectadoDTO obtenerPorId(@PathVariable Long id) {
+        return service.obtenerPorId(id);
     }
 
     @GetMapping
-    public List<AfectadoDTO> listar() {
-        return afectadoService.listarTodos();
+    public List<AfectadoDTO> listarTodos() {
+        return service.listarTodos();
     }
 
     @PutMapping("/{id}")
     public AfectadoDTO actualizar(@PathVariable Long id, @RequestBody AfectadoDTO dto) {
-        return afectadoService.actualizar(id, dto);
+        return service.actualizar(id, dto);
     }
 
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id) {
-        afectadoService.eliminar(id);
+        service.eliminar(id);
     }
 }

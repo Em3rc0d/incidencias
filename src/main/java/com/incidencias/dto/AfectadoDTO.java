@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class AfectadoDTO {
-    private Long id;
     private Long incidenciaId;
     private String nombre;
     private String documentoIdentidad;

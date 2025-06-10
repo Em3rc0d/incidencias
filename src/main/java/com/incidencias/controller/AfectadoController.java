@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.incidencias.dto.AfectadoDTO;
+import com.incidencias.model.Afectado;
 import com.incidencias.service.IAfectadoService;
 
 @RestController
@@ -30,6 +31,11 @@ public class AfectadoController {
     @GetMapping("/{id}")
     public AfectadoDTO obtenerPorId(@PathVariable Long id) {
         return service.obtenerPorId(id);
+    }
+
+    @GetMapping("incidence/{incidenciaId}")
+    public List<Afectado> obtenerPorIncidenciaId(@PathVariable Long incidenciaId) {
+        return service.obtenerPorIncidenciaId(incidenciaId);
     }
 
     @GetMapping

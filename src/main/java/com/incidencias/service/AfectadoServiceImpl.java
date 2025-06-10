@@ -57,6 +57,11 @@ public class AfectadoServiceImpl implements IAfectadoService {
     public AfectadoDTO obtenerPorId(Long id) {
         return repository.findById(id).map(this::toDTO).orElse(null);
     }
+    
+    @Override
+    public List<Afectado> obtenerPorIncidenciaId(Long incidenciaId){
+        return repository.findByIncidenciaId(incidenciaId);
+    }
 
     @Override
     public List<AfectadoDTO> listarTodos() {

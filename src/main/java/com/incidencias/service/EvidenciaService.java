@@ -24,6 +24,10 @@ public class EvidenciaService {
         return repository.findById(id);
     }
 
+    public List<Evidencia> obtenerPorIncidencia(Long incidenciaId) {
+        return repository.findByIncidenceId(incidenciaId);
+    }
+
     public Evidencia guardar(Evidencia evidencia) {
         return repository.save(evidencia);
     }

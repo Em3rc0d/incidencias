@@ -1,5 +1,8 @@
 package com.incidencias.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -43,7 +46,7 @@ public class AuthController {
     private EmpresaRepository empresaRepository;
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthRequest authRequest) {
+    public Map<String, Object> login(@RequestBody AuthRequest authRequest) {
         try {
             authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getCorreo(), authRequest.getContrasena())
@@ -51,28 +54,48 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             throw new RuntimeException("Credenciales incorrectas");
         }
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getCorreo());
-        return jwtUtil.generateToken(userDetails.getUsername());
+        String token = jwtUtil.generateToken(userDetails.getUsername());
+
+        Usuario usuario = usuarioRepository.findByCorreo(authRequest.getCorreo())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("username", usuario.getCorreo());
+        response.put("role", usuario.getRol());
+
+        return response;
     }
 
+
     @PostMapping("/register")
-    public String register(@RequestBody UsuarioDTO usuarioDTO) {
+    public Map<String, Object> register(@RequestBody UsuarioDTO usuarioDTO) {
         if (usuarioRepository.findByCorreo(usuarioDTO.getCorreo()).isPresent()) {
             throw new RuntimeException("El correo ya está registrado");
         }
+
         Empresa empresa = empresaRepository.findById(usuarioDTO.getEmpresaId())
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));  
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
+
         Usuario usuario = new Usuario();
         usuario.setEmpresa(empresa);
         usuario.setNombre(usuarioDTO.getNombre());
         usuario.setCorreo(usuarioDTO.getCorreo());
         usuario.setRol(usuarioDTO.getRol());
-        // Encripta la contraseña antes de guardar
         usuario.setContrasena(passwordEncoder.encode(usuarioDTO.getContrasena()));
 
         usuarioRepository.save(usuario);
 
-        // Opcional: retornar token para el usuario recién registrado
-        return jwtUtil.generateToken(usuario.getCorreo());
+        String token = jwtUtil.generateToken(usuario.getCorreo());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("username", usuario.getCorreo());
+        response.put("role", usuario.getRol());
+
+        return response;
     }
+
 }

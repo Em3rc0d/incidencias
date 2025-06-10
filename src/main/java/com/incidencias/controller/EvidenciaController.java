@@ -29,6 +29,11 @@ public class EvidenciaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/incidencia/{incidenciaId}")
+    public List<Evidencia> listarPorIncidencia(@PathVariable Long incidenciaId) {
+        return service.obtenerPorIncidencia(incidenciaId);
+    }
+
     @PostMapping
     public Evidencia crear(@RequestBody Evidencia evidencia) {
         return service.guardar(evidencia);

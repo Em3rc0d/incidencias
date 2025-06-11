@@ -1,7 +1,7 @@
 package com.incidencias.service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,25 +54,31 @@ public class UsuarioService {
         return mapToDTO(usuario);
     }
 
-    public List<UsuarioDTO> listarUsuarios() {
-        return usuarioRepository.findAll()
-                .stream()
-                .map(this::mapToDTO)
-                .collect(Collectors.toList());
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepository.findAll();
     }
 
-    public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO dto) {
+    public Usuario actualizarUsuario(Long id, UsuarioDTO dto) {
+        if (id == null) {
+            throw new IllegalArgumentException("El ID del usuario no puede ser null.");
+        }
+
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+
         usuario.setNombre(dto.getNombre());
         usuario.setCorreo(dto.getCorreo());
-        usuario.setContrasena(dto.getContrasena());
+        usuario.setContrasena(usuario.getContrasena());
         usuario.setRol(dto.getRol());
+
         Empresa empresa = empresaRepository.findById(dto.getEmpresaId())
-                .orElseThrow(() -> new RuntimeException("Empresa no encontrada"));
+                .orElseThrow(() -> new RuntimeException("Empresa no encontrada con ID: " + dto.getEmpresaId()));
+
         usuario.setEmpresa(empresa);
-        return mapToDTO(usuarioRepository.save(usuario));
+
+        return usuarioRepository.save(usuario);
     }
+
 
     public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);

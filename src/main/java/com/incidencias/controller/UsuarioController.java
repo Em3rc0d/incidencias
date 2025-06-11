@@ -1,8 +1,11 @@
 package com.incidencias.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import com.incidencias.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,13 +36,14 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<UsuarioDTO> listar() {
+    public List<Usuario> listar() {
         return usuarioService.listarUsuarios();
     }
 
     @PutMapping("/{id}")
-    public UsuarioDTO actualizar(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
-        return usuarioService.actualizarUsuario(id, dto);
+    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO dto) {
+        Usuario actualizado = usuarioService.actualizarUsuario(id, dto);
+        return ResponseEntity.ok(actualizado);
     }
 
     @DeleteMapping("/{id}")

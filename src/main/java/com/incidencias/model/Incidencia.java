@@ -12,6 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Incidencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,8 +45,8 @@ public class Incidencia {
 
     private String prioridad;
 
-    @Column(columnDefinition = "varchar(20) default 'abierta'")
-    private String estado;
+    @Builder.Default
+    private String estado = "Abierta";
 
     @Column(name = "fecha_reporte")
     private LocalDateTime fechaReporte;

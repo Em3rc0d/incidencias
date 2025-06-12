@@ -89,11 +89,12 @@ Table evidencia {
   fecha_subida timestamp [default: `CURRENT_TIMESTAMP`]
 }
 
-TABLE historial_uso_vehiculo {
+Table historial_uso_vehiculo {
   historial_uso_id int [pk, increment]
   vehiculo_id int [ref: > vehiculo.vehiculo_id]
   usuario_id int [ref: > usuario.usuario_id]
   numero_vueltas int
-  fecha_inicio timestamp [default: `CURRENT_TIMESTAMP`]
-  fecha_fin timestamp [null]  // NULL si sigue en uso
+  dia varchar(20) // Ej: 'Lunes'
+  hora varchar(5) // Ej: '08:00'
 }
+

@@ -1,7 +1,4 @@
-// HistorialUsoVehiculo.java
 package com.incidencias.model;
-
-import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HistorialUsoVehiculo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "historial_uso_id")
@@ -37,9 +35,11 @@ public class HistorialUsoVehiculo {
     @Column(name = "numero_vueltas")
     private Integer numeroVueltas;
 
-    @Column(name = "fecha_inicio")
-    private LocalDateTime fechaInicio;
+    // Nuevo campo para el día (Ej: "Lunes", "Martes")
+    @Column(name = "dia", length = 20)
+    private String dia;
 
-    @Column(name = "fecha_fin")
-    private LocalDateTime fechaFin;
+    // Nuevo campo para la hora (Ej: "08:00")
+    @Column(name = "hora", length = 5)
+    private String hora;
 }

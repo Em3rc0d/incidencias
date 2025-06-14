@@ -83,4 +83,19 @@ public class UsuarioService {
     public void eliminarUsuario(Long id) {
         usuarioRepository.deleteById(id);
     }
+
+    
+    public List<Usuario> obtenerUsuariosPorEmpresaId(Long empresaId) {
+        if (empresaId == null) {
+            throw new IllegalArgumentException("El ID de la empresa no puede ser null.");
+        }
+        return usuarioRepository.findByEmpresaId(empresaId);
+    }
+
+    public Optional<Usuario> obtenerUsuarioPorEmail(String email) {
+        if( email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("El correo electrónico no puede ser null o vacío.");
+        }
+        return usuarioRepository.findByCorreo(email);
+    }
 }

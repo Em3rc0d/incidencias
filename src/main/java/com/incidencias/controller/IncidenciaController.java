@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.incidencias.dto.IncidenciaDTO;
 import com.incidencias.service.IncidenciaService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/incidencias")
@@ -27,7 +30,7 @@ public class IncidenciaController {
     }
 
     @GetMapping("/{id}")
-    public IncidenciaDTO obtener(@PathVariable Long id) {
+    public Incidencia obtener(@PathVariable Long id) {
         return incidenciaService.obtenerPorId(id);
     }
 
@@ -40,4 +43,15 @@ public class IncidenciaController {
     public void eliminar(@PathVariable Long id) {
         incidenciaService.eliminar(id);
     }
+
+    @GetMapping("/empresa/{empresaId}")
+    public List<Incidencia> obtenerPorEmpresaId(@PathVariable Long empresaId) {
+        return incidenciaService.obtenerPorEmpresaId(empresaId);
+    }
+
+    @GetMapping("/user/{userId}")
+    public List<Incidencia> obtenerPorUsuarioId(@PathVariable Long userId) {
+        return incidenciaService.obtenerPorUsuarioId(userId);
+    }
+    
 }

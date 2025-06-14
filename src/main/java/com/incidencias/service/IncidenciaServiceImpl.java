@@ -16,6 +16,7 @@ import com.incidencias.repository.TipoIncidenciaRepository;
 import com.incidencias.repository.UsuarioRepository;
 import com.incidencias.repository.VehiculoRepository;
 import com.incidencias.service.IncidenciaService;
+import org.springframework.data.domain.Sort;
 
 @Service
 public class IncidenciaServiceImpl implements IncidenciaService {
@@ -55,20 +56,29 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     }
 
     @Override
-    public IncidenciaDTO obtenerPorId(Long id) {
+    public Incidencia obtenerPorId(Long id) {
         return incidenciaRepo.findById(id)
-                .map(this::mapToDTO)
                 .orElseThrow(() -> new RuntimeException("Incidencia no encontrada"));
     }
 
     @Override
     public List<Incidencia> listarTodos() {
-        return incidenciaRepo.findAll();
+        return incidenciaRepo.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override
     public void eliminar(Long id) {
         incidenciaRepo.deleteById(id);
+    }
+
+    @Override
+    public List<Incidencia> obtenerPorEmpresaId(Long empresaId) {
+        return incidenciaRepo.findByEmpresaId(empresaId);
+    }
+
+    @Override
+    public List<Incidencia> obtenerPorUsuarioId(Long userId) {
+        return incidenciaRepo.findByUsuarioId(userId);
     }
 
     private Incidencia mapToEntity(IncidenciaDTO dto) {

@@ -50,4 +50,15 @@ public class UsuarioController {
     public void eliminar(@PathVariable Long id) {
         usuarioService.eliminarUsuario(id);
     }
+
+    @GetMapping("/empresa/{empresaId}")
+    public List<Usuario> obtenerPorEmpresaId(@PathVariable Long empresaId) {
+        return usuarioService.obtenerUsuariosPorEmpresaId(empresaId);
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Usuario> obtenerPorEmail(@PathVariable String email) {
+        Optional<Usuario> usuario = usuarioService.obtenerUsuarioPorEmail(email);
+        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

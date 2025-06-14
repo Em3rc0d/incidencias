@@ -31,4 +31,8 @@ public class HistorialIncidenciaService {
     public void eliminar(Long id) {
         repository.deleteById(id);
     }
+
+    public List<HistorialIncidencia> listarPorEmpresa(Long idEmpresa) {
+        return repository.findAllByEmpresa(idEmpresa);
+    }
 }

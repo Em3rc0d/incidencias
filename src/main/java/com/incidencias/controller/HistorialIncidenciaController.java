@@ -53,4 +53,9 @@ public class HistorialIncidenciaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/empresa/{id}")
+    public ResponseEntity<List<HistorialIncidencia>> listarPorEmpresa(@PathVariable Long id){
+        return ResponseEntity.ok(service.listarPorEmpresa(id));
+    }
 }

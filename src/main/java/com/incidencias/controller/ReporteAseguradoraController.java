@@ -1,5 +1,6 @@
 package com.incidencias.controller;
 
+import com.incidencias.dto.ReporteAseguradoraDTO;
 import com.incidencias.model.ReporteAseguradora;
 import com.incidencias.service.ReporteAseguradoraService;
 import org.springframework.http.ResponseEntity;
@@ -30,18 +31,13 @@ public class ReporteAseguradoraController {
     }
 
     @PostMapping
-    public ReporteAseguradora crear(@RequestBody ReporteAseguradora reporte) {
+    public ReporteAseguradora crear(@RequestBody ReporteAseguradoraDTO reporte) {
         return service.guardar(reporte);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ReporteAseguradora> actualizar(@PathVariable Long id, @RequestBody ReporteAseguradora actualizado) {
-        return service.obtenerPorId(id)
-                .map(r -> {
-                    actualizado.setId(r.getId());
-                    return ResponseEntity.ok(service.guardar(actualizado));
-                })
-                .orElse(ResponseEntity.notFound().build());
+        return service.actualizar(id, actualizado);
     }
 
     @DeleteMapping("/{id}")

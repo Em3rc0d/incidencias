@@ -44,13 +44,13 @@ public class EmpresaServiceImpl implements EmpresaService {
     }
 
     @Override
-    public List<EmpresaDTO> listar() {
-        return empresaDAO.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    public List<Empresa> listar() {
+        return empresaDAO.findAll();
     }
 
     @Override
-    public EmpresaDTO obtenerPorId(Long id) {
-        return empresaDAO.findById(id).map(this::toDTO).orElse(null);
+    public Empresa obtenerPorId(Long id) {
+        return empresaDAO.findById(id).orElseThrow();
     }
 
     @Override

@@ -2,6 +2,7 @@
 package com.incidencias.controller;
 
 import com.incidencias.dto.EmpresaDTO;
+import com.incidencias.model.Empresa;
 import com.incidencias.service.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,12 +17,12 @@ public class EmpresaController {
     private EmpresaService service;
 
     @GetMapping
-    public List<EmpresaDTO> listar() {
+    public List<Empresa> listar() {
         return service.listar();
     }
 
     @GetMapping("/{id}")
-    public EmpresaDTO obtener(@PathVariable Long id) {
+    public Empresa obtener(@PathVariable Long id) {
         return service.obtenerPorId(id);
     }
 

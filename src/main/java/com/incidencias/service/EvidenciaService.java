@@ -29,10 +29,14 @@ public class EvidenciaService {
     }
 
     public Evidencia guardar(Evidencia evidencia) {
-        return repository.save(evidencia);
+        boolean esNuevo = (evidencia.getId() == null);
+        Evidencia guardado = repository.save(evidencia);
+        FileMirrorUtil.logOperation("evidencia", esNuevo ? "insert" : "update", guardado);
+        return guardado;
     }
 
     public void eliminar(Long id) {
+        repository.findById(id).ifPresent(e -> FileMirrorUtil.logOperation("evidencia", "delete", e));
         repository.deleteById(id);
     }
 }

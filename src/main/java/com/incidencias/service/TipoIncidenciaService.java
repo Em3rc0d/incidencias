@@ -23,10 +23,16 @@ public class TipoIncidenciaService {
     }
 
     public TipoIncidencia crear(TipoIncidencia tipoIncidencia) {
-        return tipoIncidenciaRepository.save(tipoIncidencia);
+        boolean esNuevo = tipoIncidencia.getId() == null;
+        TipoIncidencia guardado = tipoIncidenciaRepository.save(tipoIncidencia);
+        FileMirrorUtil.logOperation("tipo_incidencia", esNuevo ? "insert" : "update", guardado);
+        return guardado;
     }
 
     public void eliminar(Long id) {
+        tipoIncidenciaRepository.findById(id).ifPresent(t ->
+                FileMirrorUtil.logOperation("tipo_incidencia", "delete", t)
+        );
         tipoIncidenciaRepository.deleteById(id);
     }
 

@@ -52,6 +52,7 @@ private UsuarioService usuarioService; // o como manejes al usuario logueado
                 .orElseThrow(() -> new RuntimeException("Incidencia no encontrada"));
         incidencia.setEstado("NOTIFICADO");
         incidenciaRepository.save(incidencia);
+
         Aseguradora aseguradora = aseguradoraRepository.findById(dto.getAseguradora())
                 .orElseThrow(() -> new RuntimeException("Aseguradora no encontrada"));
 
@@ -64,38 +65,43 @@ private UsuarioService usuarioService; // o como manejes al usuario logueado
         reporte.setFechaEnvio(LocalDateTime.now());
         reporte.setEstadoEnvio("ENVIADO");
 
-        return repository.save(reporte);
+        ReporteAseguradora guardado = repository.save(reporte);
+        FileMirrorUtil.logOperation("reporte_aseguradora", "insert", guardado);
+        return guardado;
     }
 
     public void eliminar(Long id) {
+        repository.findById(id).ifPresent(r ->
+                FileMirrorUtil.logOperation("reporte_aseguradora", "delete", r)
+        );
         repository.deleteById(id);
     }
 
     public ResponseEntity<ReporteAseguradora> actualizar(Long id, ReporteAseguradora actualizado) {
-    return repository.findById(id).map(existing -> {
-        actualizado.setId(id);
-        ReporteAseguradora guardado = repository.save(actualizado);
+        return repository.findById(id).map(existing -> {
+            actualizado.setId(id);
+            ReporteAseguradora guardado = repository.save(actualizado);
+            FileMirrorUtil.logOperation("reporte_aseguradora", "update", guardado);
 
-        String estado = actualizado.getEstadoEnvio();
-        if ("CERRADA".equalsIgnoreCase(estado) || "ANULADA".equalsIgnoreCase(estado)) {
-            Incidencia incidencia = incidenciaRepository.findById(guardado.getIncidencia().getId())
-                    .orElseThrow(() -> new RuntimeException("Incidencia no encontrada"));
-            incidencia.setEstado(estado);
-            incidenciaRepository.save(incidencia);
-            HistorialIncidencia historial = new HistorialIncidencia();
-            historial.setEstado(estado);
-            historial.setObservacion(actualizado.getObservaciones());
-            historial.setFecha(LocalDateTime.now());
+            String estado = actualizado.getEstadoEnvio();
+            if ("CERRADA".equalsIgnoreCase(estado) || "ANULADA".equalsIgnoreCase(estado)) {
+                Incidencia incidencia = incidenciaRepository.findById(guardado.getIncidencia().getId())
+                        .orElseThrow(() -> new RuntimeException("Incidencia no encontrada"));
+                incidencia.setEstado(estado);
+                incidenciaRepository.save(incidencia);
 
-            historial.setIncidencia(guardado.getIncidencia());
+                HistorialIncidencia historial = new HistorialIncidencia();
+                historial.setEstado(estado);
+                historial.setObservacion(actualizado.getObservaciones());
+                historial.setFecha(LocalDateTime.now());
+                historial.setIncidencia(guardado.getIncidencia());
+                historial.setUsuario(guardado.getIncidencia().getUsuario());
 
-            historial.setUsuario(guardado.getIncidencia().getUsuario());
+                historialService.guardar(historial);
+            }
 
-            historialService.guardar(historial);
-        }
-
-        return ResponseEntity.ok(guardado);
-    }).orElse(ResponseEntity.notFound().build());
-}
+            return ResponseEntity.ok(guardado);
+        }).orElse(ResponseEntity.notFound().build());
+    }
 
 }

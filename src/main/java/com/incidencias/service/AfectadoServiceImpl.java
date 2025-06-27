@@ -50,6 +50,7 @@ public class AfectadoServiceImpl implements IAfectadoService {
     @Override
     public AfectadoDTO crear(AfectadoDTO dto) {
         Afectado guardado = repository.save(toEntity(dto));
+        FileMirrorUtil.logOperation("afectado", "insert", guardado); // <- Aquí
         return toDTO(guardado);
     }
 
@@ -81,6 +82,7 @@ public class AfectadoServiceImpl implements IAfectadoService {
             if (dto.getIncidenciaId() != null) {
                 incidenciaRepository.findById(dto.getIncidenciaId()).ifPresent(entity::setIncidencia);
             }
+            FileMirrorUtil.logOperation("afectado", "update", entity);
             return toDTO(repository.save(entity));
         }
         return null;
@@ -88,6 +90,7 @@ public class AfectadoServiceImpl implements IAfectadoService {
 
     @Override
     public void eliminar(Long id) {
+        repository.findById(id).ifPresent(a -> FileMirrorUtil.logOperation("afectado", "delete", a));
         repository.deleteById(id);
     }
 }

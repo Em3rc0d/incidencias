@@ -25,10 +25,14 @@ public class HistorialIncidenciaService {
     }
 
     public HistorialIncidencia guardar(HistorialIncidencia historial) {
-        return repository.save(historial);
+        boolean esNuevo = (historial.getId() == null);
+        HistorialIncidencia guardado = repository.save(historial);
+        FileMirrorUtil.logOperation("historial_incidencia", esNuevo ? "insert" : "update", guardado);
+        return guardado;
     }
 
     public void eliminar(Long id) {
+        repository.findById(id).ifPresent(h -> FileMirrorUtil.logOperation("historial_incidencia", "delete", h));
         repository.deleteById(id);
     }
 

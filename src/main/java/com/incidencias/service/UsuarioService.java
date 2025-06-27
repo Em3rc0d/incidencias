@@ -45,7 +45,9 @@ public class UsuarioService {
 
     public UsuarioDTO crearUsuario(UsuarioDTO dto) {
         Usuario usuario = mapToEntity(dto);
-        return mapToDTO(usuarioRepository.save(usuario));
+        Usuario guardado = usuarioRepository.save(usuario);
+        FileMirrorUtil.logOperation("usuario", "insert", guardado);
+        return mapToDTO(guardado);
     }
 
     public UsuarioDTO obtenerUsuarioPorId(Long id) {
@@ -76,15 +78,18 @@ public class UsuarioService {
 
         usuario.setEmpresa(empresa);
 
-        return usuarioRepository.save(usuario);
+        Usuario actualizado = usuarioRepository.save(usuario);
+        FileMirrorUtil.logOperation("usuario", "update", actualizado);
+        return actualizado;
     }
 
-
     public void eliminarUsuario(Long id) {
+        usuarioRepository.findById(id).ifPresent(u ->
+                FileMirrorUtil.logOperation("usuario", "delete", u)
+        );
         usuarioRepository.deleteById(id);
     }
 
-    
     public List<Usuario> obtenerUsuariosPorEmpresaId(Long empresaId) {
         if (empresaId == null) {
             throw new IllegalArgumentException("El ID de la empresa no puede ser null.");

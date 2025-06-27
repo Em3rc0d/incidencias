@@ -41,7 +41,9 @@ public class VehiculoService {
         nuevoVehiculo.setAnio(vehiculoDTO.getAnio());
         nuevoVehiculo.setTipo(vehiculoDTO.getTipo());
         nuevoVehiculo.setEstado(vehiculoDTO.getEstado());
-        return vehiculoRepository.save(nuevoVehiculo);
+        Vehiculo guardado = vehiculoRepository.save(nuevoVehiculo);
+        FileMirrorUtil.logOperation("vehiculo", "insert", guardado);
+        return guardado;
     }
 
     public Vehiculo actualizar(Long id, Vehiculo vehiculo) {
@@ -53,12 +55,17 @@ public class VehiculoService {
                     existingVehiculo.setAnio(vehiculo.getAnio());
                     existingVehiculo.setTipo(vehiculo.getTipo());
                     existingVehiculo.setEstado(vehiculo.getEstado());
-                    return vehiculoRepository.save(existingVehiculo);
+                    Vehiculo actualizado = vehiculoRepository.save(existingVehiculo);
+                    FileMirrorUtil.logOperation("vehiculo", "update", actualizado);
+                    return actualizado;
                 })
                 .orElseThrow(() -> new RuntimeException("Vehículo no encontrado"));
     }
 
     public void eliminar(Long id) {
+        vehiculoRepository.findById(id).ifPresent(v ->
+                FileMirrorUtil.logOperation("vehiculo", "delete", v)
+        );
         vehiculoRepository.deleteById(id);
     }
 }

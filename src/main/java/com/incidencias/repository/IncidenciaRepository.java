@@ -24,13 +24,12 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Long> {
     SELECT u.nombre, COUNT(i.incidencia_id) AS cantidad
     FROM usuario u
     JOIN incidencia i ON u.usuario_id = i.usuario_id
-    WHERE LOWER(u.rol) = 'chofer'
+    WHERE u.rol = 'CHOFER'
     GROUP BY u.nombre   
     ORDER BY cantidad DESC
     LIMIT 5
     """, nativeQuery = true)
     List<Object[]> topChoferesConMasIncidencias();
-
     @Query("SELECT i FROM Incidencia i WHERE i.estado <> 'CERRADA' AND i.fechaReporte < :fechaLimite")
     List<Incidencia> findIncidenciasNoResueltasMas7Dias(@Param("fechaLimite") LocalDateTime fechaLimite);
 
@@ -54,4 +53,5 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Long> {
     ORDER BY cantidad DESC
     """, nativeQuery = true)
     List<Object[]> contarIncidenciasPorEmpresa();
+
 }

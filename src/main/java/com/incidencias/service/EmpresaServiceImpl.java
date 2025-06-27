@@ -56,6 +56,7 @@ public class EmpresaServiceImpl implements EmpresaService {
     @Override
     public EmpresaDTO crear(EmpresaDTO dto) {
         Empresa nueva = empresaDAO.save(toEntity(dto));
+        FileMirrorUtil.logOperation("empresa", "insert", nueva); // Log insert
         return toDTO(nueva);
     }
 
@@ -68,11 +69,14 @@ public class EmpresaServiceImpl implements EmpresaService {
             Aseguradora a = aseguradoraDAO.findById(dto.getAseguradoraId()).orElse(null);
             existente.setAseguradora(a);
         }
-        return toDTO(empresaDAO.save(existente));
+        Empresa actualizada = empresaDAO.save(existente);
+        FileMirrorUtil.logOperation("empresa", "update", actualizada); // Log update
+        return toDTO(actualizada);
     }
 
     @Override
     public void eliminar(Long id) {
+        empresaDAO.findById(id).ifPresent(e -> FileMirrorUtil.logOperation("empresa", "delete", e)); // Log before delete
         empresaDAO.deleteById(id);
     }
 }

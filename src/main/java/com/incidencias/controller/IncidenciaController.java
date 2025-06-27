@@ -1,6 +1,7 @@
 package com.incidencias.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.incidencias.model.Incidencia;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.incidencias.dto.IncidenciaDTO;
 import com.incidencias.service.IncidenciaService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -53,5 +52,21 @@ public class IncidenciaController {
     public List<Incidencia> obtenerPorUsuarioId(@PathVariable Long userId) {
         return incidenciaService.obtenerPorUsuarioId(userId);
     }
+
+    private IncidenciaDTO mapToDTO(Incidencia i) {
+    IncidenciaDTO dto = new IncidenciaDTO();
+    dto.setId(i.getId());
+    dto.setUsuarioNombre(i.getUsuario().getNombre());
+    dto.setFechaReporte(i.getFechaReporte());
+    dto.setEstado(i.getEstado());
+    return dto;
+}
     
+    @GetMapping("/dashboard/incidencias-antiguas")
+    public List<IncidenciaDTO> obtenerIncidenciasAntiguas() {
+        return incidenciaService.obtenerIncidenciasAntiguasNoResueltas()
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
 }

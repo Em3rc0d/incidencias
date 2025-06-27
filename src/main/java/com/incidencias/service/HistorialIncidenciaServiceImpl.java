@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class HistorialIncidenciaService {
+public class HistorialIncidenciaServiceImpl implements IHistorialIncidenciaService {
 
     private final HistorialIncidenciaRepository repository;
 
-    public HistorialIncidenciaService(HistorialIncidenciaRepository repository) {
+    public HistorialIncidenciaServiceImpl(HistorialIncidenciaRepository repository) {
         this.repository = repository;
     }
 

@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EvidenciaService {
+public class EvidenciaServiceImpl implements IEvidenciaService{
 
     private final EvidenciaRepository repository;
 
-    public EvidenciaService(EvidenciaRepository repository) {
+    public EvidenciaServiceImpl(EvidenciaRepository repository) {
         this.repository = repository;
     }
 

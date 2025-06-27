@@ -13,7 +13,7 @@ import com.incidencias.repository.EmpresaRepository;
 import com.incidencias.repository.UsuarioRepository;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements IUsuarioService{
 
     @Autowired
     private UsuarioRepository usuarioRepository;

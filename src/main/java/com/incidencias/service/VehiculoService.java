@@ -14,7 +14,7 @@ import com.incidencias.repository.EmpresaRepository;
 import com.incidencias.repository.VehiculoRepository;
 
 @Service
-public class VehiculoService {
+public class VehiculoService implements IVehiculoService{
     @Autowired
     private VehiculoRepository vehiculoRepository;
     @Autowired

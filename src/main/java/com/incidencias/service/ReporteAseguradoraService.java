@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ReporteAseguradoraService {
+public class ReporteAseguradoraService implements IReporteAseguradoraService {
 
     @Autowired
     private ReporteAseguradoraRepository repository;
@@ -29,7 +29,7 @@ public class ReporteAseguradoraService {
     private AseguradoraRepository aseguradoraRepository;
 
     @Autowired
-private HistorialIncidenciaService historialService;
+private HistorialIncidenciaServiceImpl historialService;
 
 @Autowired
 private UsuarioService usuarioService; // o como manejes al usuario logueado

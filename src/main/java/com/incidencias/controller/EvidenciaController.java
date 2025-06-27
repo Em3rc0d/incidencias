@@ -1,7 +1,7 @@
 package com.incidencias.controller;
 
 import com.incidencias.model.Evidencia;
-import com.incidencias.service.EvidenciaService;
+import com.incidencias.service.EvidenciaServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api/evidencias")
 public class EvidenciaController {
 
-    private final EvidenciaService service;
+    private final EvidenciaServiceImpl service;
 
-    public EvidenciaController(EvidenciaService service) {
+    public EvidenciaController(EvidenciaServiceImpl service) {
         this.service = service;
     }
 

@@ -3,7 +3,7 @@ package com.incidencias.controller;
 
 import com.incidencias.dto.EmpresaDTO;
 import com.incidencias.model.Empresa;
-import com.incidencias.service.EmpresaService;
+import com.incidencias.service.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class EmpresaController {
 
     @Autowired
-    private EmpresaService service;
+    private IEmpresaService service;
 
     @GetMapping
     public List<Empresa> listar() {

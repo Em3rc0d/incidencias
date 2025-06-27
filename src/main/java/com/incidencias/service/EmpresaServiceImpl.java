@@ -6,7 +6,7 @@ import com.incidencias.dao.AseguradoraDAO;
 import com.incidencias.dto.EmpresaDTO;
 import com.incidencias.model.Empresa;
 import com.incidencias.model.Aseguradora;
-import com.incidencias.service.EmpresaService;
+import com.incidencias.service.IEmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class EmpresaServiceImpl implements EmpresaService {
+public class EmpresaServiceImpl implements IEmpresaService {
 
     @Autowired
     private EmpresaDAO empresaDAO;

@@ -1,5 +1,6 @@
 package com.incidencias.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,4 +109,12 @@ public class IncidenciaServiceImpl implements IncidenciaService {
         dto.setTipoIncidenciaId(i.getTipoIncidencia().getId());
         return dto;
     }
+
+    @Override
+    public List<Incidencia> obtenerIncidenciasAntiguasNoResueltas() {
+        LocalDateTime hace7dias = LocalDateTime.now().minusDays(7);
+        return incidenciaRepo.findIncidenciasNoResueltasMas7Dias(hace7dias);
+    }
+
+
 }

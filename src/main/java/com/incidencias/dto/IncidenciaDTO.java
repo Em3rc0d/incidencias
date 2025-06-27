@@ -6,6 +6,9 @@ import lombok.Data;
 
 @Data
 public class IncidenciaDTO {
+    private Long id;
+    private String usuarioNombre; 
+
     private Long vehiculoId;
     private Long usuarioId;
     private Long tipoIncidenciaId;

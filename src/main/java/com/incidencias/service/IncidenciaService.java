@@ -13,4 +13,5 @@ public interface IncidenciaService {
     void eliminar(Long id);
     List<Incidencia> obtenerPorEmpresaId(Long empresaId);
     List<Incidencia> obtenerPorUsuarioId(Long userId);
+    List<Incidencia> obtenerIncidenciasAntiguasNoResueltas();
 }

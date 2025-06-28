@@ -48,6 +48,7 @@ public class AseguradoraServiceImpl implements AseguradoraService {
     @Override
     public AseguradoraDTO crear(AseguradoraDTO dto) {
         Aseguradora nueva = dao.save(toEntity(dto));
+        FileMirrorUtil.logOperation("aseguradora", "insert", nueva); // Log mirror
         return toDTO(nueva);
     }
 
@@ -57,11 +58,14 @@ public class AseguradoraServiceImpl implements AseguradoraService {
         existente.setNombre(dto.getNombre());
         existente.setCorreoContacto(dto.getCorreoContacto());
         existente.setTelefono(dto.getTelefono());
-        return toDTO(dao.save(existente));
+        Aseguradora actualizada = dao.save(existente);
+        FileMirrorUtil.logOperation("aseguradora", "update", actualizada); // Log mirror
+        return toDTO(actualizada);
     }
 
     @Override
     public void eliminar(Long id) {
+        dao.findById(id).ifPresent(a -> FileMirrorUtil.logOperation("aseguradora", "delete", a)); // Pre-log
         dao.deleteById(id);
     }
 }

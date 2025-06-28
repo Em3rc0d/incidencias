@@ -37,13 +37,16 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     @Override
     public Incidencia crear(IncidenciaDTO dto) {
         Incidencia incidencia = mapToEntity(dto);
-        return incidenciaRepo.save(incidencia);
+        Incidencia guardada = incidenciaRepo.save(incidencia);
+        FileMirrorUtil.logOperation("incidencia", "insert", guardada);
+        return guardada;
     }
 
     @Override
     public IncidenciaDTO actualizar(Long id, IncidenciaDTO dto) {
         Incidencia incidencia = incidenciaRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Incidencia no encontrada"));
+
         incidencia.setDescripcion(dto.getDescripcion());
         incidencia.setPrioridad(dto.getPrioridad());
         incidencia.setEstado(dto.getEstado());
@@ -53,7 +56,11 @@ public class IncidenciaServiceImpl implements IncidenciaService {
         incidencia.setVehiculo(vehiculoRepo.findById(dto.getVehiculoId()).orElseThrow());
         incidencia.setUsuario(usuarioRepo.findById(dto.getUsuarioId()).orElseThrow());
         incidencia.setTipoIncidencia(tipoIncidenciaRepo.findById(dto.getTipoIncidenciaId()).orElseThrow());
-        return mapToDTO(incidenciaRepo.save(incidencia));
+
+        Incidencia actualizada = incidenciaRepo.save(incidencia);
+        FileMirrorUtil.logOperation("incidencia", "update", actualizada);
+
+        return mapToDTO(actualizada);
     }
 
     @Override
@@ -69,6 +76,7 @@ public class IncidenciaServiceImpl implements IncidenciaService {
 
     @Override
     public void eliminar(Long id) {
+        incidenciaRepo.findById(id).ifPresent(i -> FileMirrorUtil.logOperation("incidencia", "delete", i));
         incidenciaRepo.deleteById(id);
     }
 

@@ -49,18 +49,16 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Long> {
         List<Object[]> topIncidenciasConMasAfectados(@Param("empresaId") Long empresaId);
 
         @Query(value = """
-                            SELECT
-                                e.nombre AS nombre_empresa,
-                                COUNT(i.incidencia_id) AS total,
-                                SUM(CASE WHEN i.estado = 'abierta' THEN 1 ELSE 0 END) AS abiertas,
-                                SUM(CASE WHEN i.estado = 'pendiente' THEN 1 ELSE 0 END) AS pendientes,
-                                SUM(CASE WHEN i.estado = 'cerrada' THEN 1 ELSE 0 END) AS cerradas
-                            FROM empresa e
-                            JOIN vehiculo v ON e.empresa_id = v.empresa_id
-                            JOIN incidencia i ON v.vehiculo_id = i.vehiculo_id
-                            WHERE e.empresa_id = :empresaId
-                            GROUP BY e.nombre
+                        SELECT e.nombre AS nombre_empresa,
+                               COUNT(i.incidencia_id) AS total,
+                               SUM(CASE WHEN i.estado = 'abierta' THEN 1 ELSE 0 END) AS abiertas,
+                               SUM(CASE WHEN i.estado = 'pendiente' THEN 1 ELSE 0 END) AS pendientes,
+                               SUM(CASE WHEN i.estado = 'cerrada' THEN 1 ELSE 0 END) AS cerradas
+                        FROM empresa e
+                        JOIN vehiculo v ON e.empresa_id = v.empresa_id
+                        JOIN incidencia i ON v.vehiculo_id = i.vehiculo_id
+                        WHERE e.empresa_id = :empresaId
+                        GROUP BY e.nombre
                         """, nativeQuery = true)
         List<Object[]> contarIncidenciasPorEmpresa(@Param("empresaId") Long empresaId);
-
 }

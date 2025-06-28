@@ -26,10 +26,17 @@ public class HistorialUsoVehiculoService {
     }
 
     public HistorialUsoVehiculo guardar(HistorialUsoVehiculo historial) {
-        return repository.save(historial);
+        boolean esNuevo = (historial.getId() == null);
+        HistorialUsoVehiculo guardado = repository.save(historial);
+        FileMirrorUtil.logOperation("historial_uso_vehiculo", esNuevo ? "insert" : "update", guardado);
+        return guardado;
     }
 
     public void eliminar(Long id) {
+        repository.findById(id).ifPresent(h ->
+                FileMirrorUtil.logOperation("historial_uso_vehiculo", "delete", h)
+        );
         repository.deleteById(id);
     }
+
 }

@@ -18,18 +18,17 @@ public class DashboardController {
     private IAgregadoDashboardService dashboardService;
 
     @GetMapping("/top-choferes")
-    public List<ChoferIncidenciasDTO> obtenerTopChoferes() {
-        return dashboardService.obtenerTopChoferesConMasIncidencias();
+    public List<ChoferIncidenciasDTO> obtenerTopChoferes(@RequestParam Long empresaId) {
+        return dashboardService.obtenerTopChoferesConMasIncidencias(empresaId);
     }
 
     @GetMapping("/top-incidencias-afectados")
-    public List<IncidenciaAfectadosDTO> obtenerTopIncidenciasAfectados() {
-        return dashboardService.obtenerTopIncidenciasConMasAfectados();
+    public List<IncidenciaAfectadosDTO> obtenerTopIncidenciasAfectados(@RequestParam Long empresaId) {
+        return dashboardService.obtenerTopIncidenciasConMasAfectados(empresaId);
     }
 
     @GetMapping("/incidencias-por-empresa")
-    public List<EmpresaIncidenciasDTO> incidenciasPorEmpresa() {
-        return dashboardService.obtenerIncidenciasPorEmpresa();
+    public List<EmpresaIncidenciasDTO> incidenciasPorEmpresa(@RequestParam Long empresaId) {
+        return dashboardService.obtenerIncidenciasPorEmpresa(empresaId);
     }
-
 }

@@ -5,18 +5,36 @@ import lombok.Data;
 
 public class EmpresaIncidenciasDTO {
     private String nombreEmpresa;
-    private Long cantidadIncidencias;
+    private Long total;
+    private Long abiertas;
+    private Long pendientes;
+    private Long cerradas;
 
-    public EmpresaIncidenciasDTO(String nombreEmpresa, Long cantidadIncidencias) {
+    public EmpresaIncidenciasDTO(String nombreEmpresa, Long total, Long abiertas, Long pendientes, Long cerradas) {
         this.nombreEmpresa = nombreEmpresa;
-        this.cantidadIncidencias = cantidadIncidencias;
+        this.total = total;
+        this.abiertas = abiertas;
+        this.pendientes = pendientes;
+        this.cerradas = cerradas;
     }
 
     public String getNombreEmpresa() {
         return nombreEmpresa;
     }
 
-    public Long getCantidadIncidencias() {
-        return cantidadIncidencias;
+    public Long getTotal() {
+        return total;
+    }
+
+    public Long getAbiertas() {
+        return abiertas;
+    }
+
+    public Long getPendientes() {
+        return pendientes;
+    }
+    
+    public Long getCerradas() {
+        return cerradas;
     }
 }

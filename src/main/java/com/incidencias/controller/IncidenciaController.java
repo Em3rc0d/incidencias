@@ -63,8 +63,8 @@ public class IncidenciaController {
 }
     
     @GetMapping("/dashboard/incidencias-antiguas")
-    public List<IncidenciaDTO> obtenerIncidenciasAntiguas() {
-        return incidenciaService.obtenerIncidenciasAntiguasNoResueltas()
+    public List<IncidenciaDTO> obtenerIncidenciasAntiguas(@RequestParam Long empresaId) {
+        return incidenciaService.obtenerIncidenciasAntiguasNoResueltas(empresaId)
                 .stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());

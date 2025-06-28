@@ -111,10 +111,8 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     }
 
     @Override
-    public List<Incidencia> obtenerIncidenciasAntiguasNoResueltas() {
+    public List<Incidencia> obtenerIncidenciasAntiguasNoResueltas(Long empresaId) {
         LocalDateTime hace7dias = LocalDateTime.now().minusDays(7);
-        return incidenciaRepo.findIncidenciasNoResueltasMas7Dias(hace7dias);
+        return incidenciaRepo.findIncidenciasNoResueltasMas7Dias(hace7dias, empresaId);
     }
-
-
 }

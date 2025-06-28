@@ -1,7 +1,7 @@
 package com.incidencias.controller;
 
 import com.incidencias.model.HistorialIncidencia;
-import com.incidencias.service.HistorialIncidenciaService;
+import com.incidencias.service.HistorialIncidenciaServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping("/api/historial-incidencias")
 public class HistorialIncidenciaController {
 
-    private final HistorialIncidenciaService service;
+    private final HistorialIncidenciaServiceImpl service;
 
-    public HistorialIncidenciaController(HistorialIncidenciaService service) {
+    public HistorialIncidenciaController(HistorialIncidenciaServiceImpl service) {
         this.service = service;
     }
 

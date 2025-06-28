@@ -2,7 +2,7 @@
 package com.incidencias.controller;
 
 import com.incidencias.dto.AseguradoraDTO;
-import com.incidencias.service.AseguradoraService;
+import com.incidencias.service.IAseguradoraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class AseguradoraController {
 
     @Autowired
-    private AseguradoraService service;
+    private IAseguradoraService service;
 
     @GetMapping
     public List<AseguradoraDTO> listar() {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.incidencias.dto.EmpresaDTO;
 @Service
-public interface EmpresaService {
+public interface IEmpresaService {
     List<Empresa> listar();
     Empresa obtenerPorId(Long id);
     EmpresaDTO crear(EmpresaDTO dto);

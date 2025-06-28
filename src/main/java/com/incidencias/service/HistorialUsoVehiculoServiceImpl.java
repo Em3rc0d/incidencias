@@ -9,11 +9,11 @@ import com.incidencias.model.HistorialUsoVehiculo;
 import com.incidencias.repository.HistorialUsoVehiculoRepository;
 
 @Service
-public class HistorialUsoVehiculoService {
+public class HistorialUsoVehiculoServiceImpl implements IHistorialUsoVehiculoService {
 
     private final HistorialUsoVehiculoRepository repository;
 
-    public HistorialUsoVehiculoService(HistorialUsoVehiculoRepository repository) {
+    public HistorialUsoVehiculoServiceImpl(HistorialUsoVehiculoRepository repository) {
         this.repository = repository;
     }
 

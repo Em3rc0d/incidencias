@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.incidencias.model.HistorialUsoVehiculo;
-import com.incidencias.service.HistorialUsoVehiculoService;
+import com.incidencias.service.HistorialUsoVehiculoServiceImpl;
 
 @RestController
 @RequestMapping("/api/historial-uso")
 public class HistorialUsoVehiculoController {
 
-    private final HistorialUsoVehiculoService service;
+    private final HistorialUsoVehiculoServiceImpl service;
 
-    public HistorialUsoVehiculoController(HistorialUsoVehiculoService service) {
+    public HistorialUsoVehiculoController(HistorialUsoVehiculoServiceImpl service) {
         this.service = service;
     }
 

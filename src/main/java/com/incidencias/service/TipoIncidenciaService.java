@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class TipoIncidenciaService {
+public class TipoIncidenciaService implements ITipoIncidenciaService{
 
     @Autowired
     private TipoIncidenciaRepository tipoIncidenciaRepository;

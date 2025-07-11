@@ -1,23 +1,20 @@
 package com.incidencias.service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import com.incidencias.dto.IncidenciaDTO;
 import com.incidencias.model.Incidencia;
-import com.incidencias.model.TipoIncidencia;
-import com.incidencias.model.Usuario;
-import com.incidencias.model.Vehiculo;
 import com.incidencias.repository.IncidenciaRepository;
 import com.incidencias.repository.TipoIncidenciaRepository;
 import com.incidencias.repository.UsuarioRepository;
 import com.incidencias.repository.VehiculoRepository;
-import com.incidencias.service.IncidenciaService;
-import org.springframework.data.domain.Sort;
 
 @Service
 public class IncidenciaServiceImpl implements IncidenciaService {
@@ -34,11 +31,18 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     @Autowired
     private TipoIncidenciaRepository tipoIncidenciaRepo;
 
+    @Autowired
+    private WarehouseService warehouseService;
+
     @Override
     public Incidencia crear(IncidenciaDTO dto) {
         Incidencia incidencia = mapToEntity(dto);
         Incidencia guardada = incidenciaRepo.save(incidencia);
+
         FileMirrorUtil.logOperation("incidencia", "insert", guardada);
+        Map<String, Object> wh = toWarehouseMap(guardada);
+        warehouseService.saveOrUpdate("view_incidencia_warehouse", wh);
+
         return guardada;
     }
 
@@ -60,6 +64,9 @@ public class IncidenciaServiceImpl implements IncidenciaService {
         Incidencia actualizada = incidenciaRepo.save(incidencia);
         FileMirrorUtil.logOperation("incidencia", "update", actualizada);
 
+        Map<String, Object> wh = toWarehouseMap(actualizada);
+        warehouseService.saveOrUpdate("view_incidencia_warehouse", wh);
+
         return mapToDTO(actualizada);
     }
 
@@ -78,6 +85,8 @@ public class IncidenciaServiceImpl implements IncidenciaService {
     public void eliminar(Long id) {
         incidenciaRepo.findById(id).ifPresent(i -> FileMirrorUtil.logOperation("incidencia", "delete", i));
         incidenciaRepo.deleteById(id);
+        warehouseService.delete("view_incidencia_warehouse", id);
+
     }
 
     @Override
@@ -124,5 +133,16 @@ public class IncidenciaServiceImpl implements IncidenciaService {
         return incidenciaRepo.findIncidenciasNoResueltasMas7Dias(hace7dias);
     }
 
+    private Map<String, Object> toWarehouseMap(Incidencia incidencia) {
+        Map<String, Object> wh = new HashMap<>();
+        wh.put("id", incidencia.getId());
+        wh.put("id_vehiculo", incidencia.getVehiculo().getId());
+        wh.put("id_usuario", incidencia.getUsuario().getId());
+        wh.put("id_tipo_incidencia", incidencia.getTipoIncidencia().getId());
+        wh.put("fecha_reporte", incidencia.getFechaReporte());
+        return wh;
+    }
+
+    // Select * from id join join join join
 
 }

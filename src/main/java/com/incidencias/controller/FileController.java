@@ -31,10 +31,14 @@ public class FileController {
             Path path = Paths.get(filePath);
             Files.write(path, file.getBytes());
 
-            return ResponseEntity.ok(filePath); // Devolver ruta absoluta
+            // Devolver solo la ruta relativa para usarla desde el frontend
+            String relativePath = "evidences/" + file.getOriginalFilename();
+            return ResponseEntity.ok(relativePath);
+
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().body("Error al subir archivo.");
         }
     }
+
 }

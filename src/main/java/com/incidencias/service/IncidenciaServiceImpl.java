@@ -135,11 +135,15 @@ public class IncidenciaServiceImpl implements IncidenciaService {
 
     private Map<String, Object> toWarehouseMap(Incidencia incidencia) {
         Map<String, Object> wh = new HashMap<>();
+//        wh.put("id", incidencia.getId());
+//        wh.put("id_vehiculo", incidencia.getVehiculo().getId());
+//        wh.put("id_usuario", incidencia.getUsuario().getId());
+//        wh.put("id_tipo_incidencia", incidencia.getTipoIncidencia().getId());
+//        wh.put("fecha_reporte", incidencia.getFechaReporte());
         wh.put("id", incidencia.getId());
-        wh.put("id_vehiculo", incidencia.getVehiculo().getId());
-        wh.put("id_usuario", incidencia.getUsuario().getId());
-        wh.put("id_tipo_incidencia", incidencia.getTipoIncidencia().getId());
-        wh.put("fecha_reporte", incidencia.getFechaReporte());
+        wh.put("vehiculo", incidencia.getVehiculo().getPlaca());
+        wh.put("usuario", incidencia.getUsuario().getNombre());
+        wh.put("tipo_incidencia", incidencia.getTipoIncidencia().getNombre());
         return wh;
     }
 
